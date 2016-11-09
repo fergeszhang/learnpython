@@ -1,2 +1,2 @@
 # learnpython
-I learning python
+I learning python2.X, this is my exercises.
