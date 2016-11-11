@@ -1,5 +1,6 @@
-import scoket
+import socket
 import re
+import time
 
 inurl = raw_input("Enter a url likes: 'http://www.py4inf.com/code/romeo.txt'.\n>:")
 words = inurl.split('/')
@@ -23,42 +24,43 @@ except:
     exit()
 count = 0
 length = 0
+text = ""
+print "\nStarts receiving data.\n... ..."
 while True:
-    data = mysock.recv(512)
+    data = mysock.recv(5120)
+    time.sleep(0.25)
     if (len(data) < 1):
-        print 'Received data', 100, '%'
+        print 'Received data', 100, '%\n'
         break
     if count == 0 or count < 3000:
-        print data
-        count = count + 512
+        #print data
+        count = count + 5120
         stuff = re.findall('Content-Length: *([0-9]+)',data)
         if len(stuff) != 1:continue
         summary = int(stuff[0])
     length = length  + len(data)
     number = summary/10
-    if 3512 > length > 3000 :
-        print '\n\n', 'Starts receiving data', '\n', '... ...'
-    elif length > 3000 and (number + 512) > length > number:
+    text = text + data
+    if (number + 5120) > length > number:
         print 'Received data', 10, '%', '\n', '... ...'
-    elif length > 3000 and (2*number + 512) > length > 2*number:
+    elif (2*number + 5120) > length > 2*number:
         print 'Received data', 20, '%', '\n', '... ...'
-    elif length > 3000 and (3*number + 512) > length > 3*number:
+    elif (3*number + 5120) > length > 3*number:
         print 'Received data', 30, '%', '\n', '... ...'
-    elif length > 3000 and (4*number + 512) > length > 4*number:
+    elif (4*number + 5120) > length > 4*number:
         print 'Received data', 40, '%', '\n', '... ...'
-    elif length > 3000 and (5*number + 512) > length > 5*number:
+    elif (5*number + 5120) > length > 5*number:
         print 'Received data', 50, '%', '\n', '... ...'
-    elif length > 3000 and (6*number + 512) > length > 6*number:
+    elif (6*number + 5120) > length > 6*number:
         print 'Received data', 60, '%', '\n', '... ...'
-    elif length > 3000 and (7*number + 512) > length > 7*number:
+    elif (7*number + 5120) > length > 7*number:
         print 'Received data', 70, '%', '\n', '... ...'
-    elif length > 3000 and (8*number + 512) > length > 8*number:
+    elif (8*number + 5120) > length > 8*number:
         print 'Received data', 80, '%', '\n', '... ...'
-    elif length > 3000 and (9*number + 512) > length > 9*number:
+    elif (9*number + 5120) > length > 9*number:
         print 'Received data', 90, '%', '\n', '... ...'
-if length > 3000:
-    print 'This file is has',length,'characters.'
-else:
-    print 'This file is has',length,'characters.'
-
 mysock.close()
+pos = text.find("\r\n\r\n")
+print "Header length", pos
+print 'This file is has',length,'characters.'
+print text[(pos + 4):(3004 + pos)]

@@ -1,17 +1,15 @@
 import urllib
-import BeautifulSoup
+from bs4 import BeautifulSoup
 
 inurl = raw_input('Enter - url:')
 words = inurl.split('/')
-if words[0].lower() == 'http:' or words[0].lower() == 'https:':
-    try:
-        uhand = urllib.urlopen(inurl)
-    except:
-        print 'This url is invalid!'
-        exit()
-else:
-    print "Please enter url starts with 'http:' or 'https:'."
+
+try:
+    uhand = urllib.urlopen(inurl)
+except:
+    print 'This url is invalid!'
     exit()
+
 headers =  uhand.info()
 size = headers.getheader('Content-Length')
 count = dict()
@@ -24,4 +22,4 @@ for line in uhand:
         count[word] = count.get(word, 0)
     length = length + len(line)
 
-print '\n\n', length
+print '\n\n', "This web is", length, "characters."
